@@ -1,16 +1,11 @@
 <template>
-  <div id="app">
-      Super, it WORKS! Test
-  </div>
+  <div id="app">Super, it WORKS! Test</div>
 </template>
 
 <script>
-
 export default {
   name: 'App',
-  components: {
-
-  }
+  components: {}
 }
 </script>
 
