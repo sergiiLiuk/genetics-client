@@ -6,6 +6,10 @@ import Router from 'vue-router'
 import router from './router'
 import store from './store'
 
+import Modal from '@/components/Modal'
+
+Vue.component('Modal', Modal)
+
 Vue.config.productionTip = false
 Vue.use(Router)
 new Vue({

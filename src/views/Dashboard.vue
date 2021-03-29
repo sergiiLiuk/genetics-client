@@ -246,7 +246,7 @@ export default {
   },
   mounted() {
     this.loading = true
-    this.$store.dispatch('fetchPeopleList')
+    this.$store.dispatch('GET_BIRTHS')
     this.loading = false
   },
   methods: {

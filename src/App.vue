@@ -1,11 +1,22 @@
 <template>
-  <div id="app">Super, it WORKS! Test 01</div>
+  <div id="app">
+    <v-app>
+      <Navigation />
+      <Layout />
+    </v-app>
+  </div>
 </template>
 
 <script>
+import Navigation from '@/components/Navigation'
+import Layout from '@/components/Layout'
+
 export default {
   name: 'App',
-  components: {}
+  components: {
+    Navigation,
+    Layout
+  }
 }
 </script>
 
@@ -16,6 +27,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

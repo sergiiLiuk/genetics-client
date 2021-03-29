@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersist from 'vuex-persist'
 
+import app from '@/store/modules/app'
+import birth from '@/store/modules/birth'
+
 Vue.use(Vuex)
 
 const vuexLocalStorage = new VuexPersist({
@@ -18,7 +21,7 @@ export default new Vuex.Store({
   plugins: [vuexLocalStorage.plugin],
   state: initialState(),
   modules: {
-    // app,
-    // birth
+    app,
+    birth
   }
 })
