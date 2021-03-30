@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      appTitle: 'Генетика',
+      appTitle: 'Генеалогічний портал',
 
       menuItems: [
         { title: 'Головна', path: '/', icon: 'home' },
