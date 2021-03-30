@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default async function (query, variables) {
   try {
-    const response = await axios.post('http://localhost:5000/api', {
+    const response = await axios.post('/api', {
       query,
       variables,
       headers: {
