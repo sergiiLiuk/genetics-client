@@ -3,6 +3,7 @@ import Router from 'vue-router'
 const Dashboard = () => import(/* webpackChunkName: "Dashboard" */ '@/views/Dashboard')
 const About = () => import(/* webpackChunkName: "About" */ '@/views/About')
 const Team = () => import(/* webpackChunkName: "Team" */ '@/views/Team')
+const Search = () => import(/* webpackChunkName: "Search" */ '@/views/Search')
 const NotFound = () => import(/* webpackChunkName: "NotFound" */ '@/views/NotFound')
 
 const router = new Router({
@@ -12,6 +13,11 @@ const router = new Router({
       path: '/',
       name: 'Dashboard',
       component: Dashboard
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search
     },
     {
       path: '/team',

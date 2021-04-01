@@ -47,6 +47,7 @@ export default {
 
       menuItems: [
         { title: 'Головна', path: '/', icon: 'home' },
+        { title: 'Пошук', path: '/search', icon: 'search' },
         { title: 'Команда', path: '/team', icon: 'people' },
         { title: 'Про проект', path: '/about', icon: 'history_edu' }
       ]
