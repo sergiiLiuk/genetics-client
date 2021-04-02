@@ -16,7 +16,11 @@
               hide-details
             ></v-text-field>
 
-            <component :is="filterComponent" :birth-place.sync="state.filters.birthPlace" />
+            <component
+              :is="filterComponent"
+              :filters="state.filters"
+              @update="state.filters = $event"
+            />
 
             <div>
               <v-checkbox
@@ -90,7 +94,11 @@
                   hide-details
                 ></v-text-field>
 
-                <component :is="filterComponent" :birth-place.sync="state.filters.birthPlace" />
+                <component
+                  :is="filterComponent"
+                  :filters="state.filters"
+                  @update="state.filters = $event"
+                />
 
                 <v-checkbox
                   v-for="header in headers"
@@ -180,6 +188,9 @@ export default {
     }
   },
   computed: {
+    dataState() {
+      return this.$store.state[pageMap[this.page]][pageMap[this.page]]
+    },
     filterComponent() {
       return require('../components/filters/' +
         this.capitalizeFirstLetter(pageMap[this.page]) +
@@ -189,10 +200,11 @@ export default {
       return this.headers.filter((header) => this.state.settings.columns.includes(header.value))
     },
     filteredItems() {
-      return mingoFilter(this.$store.state[pageMap[this.page]], this.state)
+      return mingoFilter(this.dataState, this.state)
     },
     itemsPerPage() {
       // this.paginationPage = 1
+
       let res = Object.entries(this.paginationMap).find(([key, value]) => {
         if (key == this.state.settings.selectedPagination) return value
       })
