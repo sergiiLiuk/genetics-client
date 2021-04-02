@@ -3,16 +3,16 @@ import Vuex from 'vuex'
 import VuexPersist from 'vuex-persist'
 
 import app from '@/store/modules/app'
-import birth from '@/store/modules/birth'
+import births from '@/store/modules/births'
 
 Vue.use(Vuex)
 
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
-  storage: window.sessionStorage
-  // reducer: (state) => ({
-  //   birthRecords: state.birthRecords
-  // })
+  storage: window.sessionStorage,
+  reducer: (state) => ({
+    births: state.births.births
+  })
 })
 
 const initialState = () => ({})
@@ -22,6 +22,6 @@ export default new Vuex.Store({
   state: initialState(),
   modules: {
     app,
-    birth
+    births
   }
 })

@@ -16,14 +16,7 @@
               hide-details
             ></v-text-field>
 
-            <v-select
-              v-model="state.filters.birthPlace"
-              class="mt-4"
-              :items="birthPlaces"
-              label="Місцевість"
-              dense
-              outlined
-            ></v-select>
+            <component :is="filterComponent" :birth-place.sync="state.filters.birthPlace" />
 
             <div>
               <v-checkbox
@@ -97,21 +90,8 @@
                   hide-details
                 ></v-text-field>
 
-                <v-select
-                  v-model="state.filters.birthPlace"
-                  class="mt-4"
-                  :items="birthPlaces"
-                  label="Місцевість"
-                  dense
-                  outlined
-                ></v-select>
+                <component :is="filterComponent" :birth-place.sync="state.filters.birthPlace" />
 
-                <v-select
-                  v-model="state.settings.selectedPagination"
-                  :items="Object.keys(paginationMap)"
-                  label="Записів на сторінку "
-                  dense
-                ></v-select>
                 <v-checkbox
                   v-for="header in headers"
                   :key="header.text"
@@ -122,6 +102,14 @@
                   hide-details
                   :value="header.value"
                 ></v-checkbox>
+
+                <v-select
+                  v-model="state.settings.selectedPagination"
+                  class="mt-4"
+                  :items="Object.keys(paginationMap)"
+                  label="Записів на сторінку "
+                  dense
+                ></v-select>
                 <v-divider class="my-4"></v-divider>
                 <v-btn @click="clean()">Очистити</v-btn>
               </div>
@@ -156,30 +144,27 @@
 </template>
 
 <script>
-const initSettings = {
-  columns: ['firstName', 'lastName', 'birthday', 'sex', 'birthPlace', 'note'],
-  sortBy: '',
-  descending: true,
-  paginationPage: 1,
-  selectedPagination: 20,
-  results: 10
-}
-
-const initFilters = {
-  search: '',
-  birthPlace: ''
+const pageMap = {
+  1: 'births',
+  2: 'marriage',
+  3: 'death'
 }
 
 import { mingoFilter } from '../service/mingo/birth'
+import common from '../mixins/common'
+import headers from '../imports/headers'
+import settings from '../imports/settings'
+import filters from '../imports/filters'
 
 export default {
   components: {},
+  mixins: [common],
   data() {
     return {
       page: 1,
       state: {
-        settings: Object.assign({}, initSettings),
-        filters: Object.assign({}, initFilters)
+        settings: {},
+        filters: {}
       },
       sideSpaceState: undefined,
       loading: false,
@@ -195,20 +180,16 @@ export default {
     }
   },
   computed: {
+    filterComponent() {
+      return require('../components/filters/' +
+        this.capitalizeFirstLetter(pageMap[this.page]) +
+        'Filters.vue').default
+    },
     filteredHeaders() {
       return this.headers.filter((header) => this.state.settings.columns.includes(header.value))
     },
-    birthPlaces() {
-      return [
-        ...new Set(
-          this.$store.state.birth.birthRecords
-            .map((item) => item.birthPlace)
-            .filter((item) => item !== '-' && item !== '')
-        )
-      ]
-    },
     filteredItems() {
-      return mingoFilter(this.$store.state.birth.birthRecords, this.state)
+      return mingoFilter(this.$store.state[pageMap[this.page]], this.state)
     },
     itemsPerPage() {
       // this.paginationPage = 1
@@ -227,25 +208,17 @@ export default {
     siteSpaceHeight() {
       return window.innerHeight
     },
-    birth() {
-      return this.$store.state.birth.birthRecords
-    },
     headers() {
-      return [
-        { text: "Ім'я", value: 'firstName', align: 'center', sortable: true },
-        { text: 'Прізвище', align: 'center', value: 'lastName', sortable: true },
-        { text: "ім'я друге", align: 'center', value: 'secondName', sortable: true },
-        { text: 'Номер акту', align: 'center', value: 'actNumber', sortable: true },
-        { text: 'Дата народження', align: 'center', value: 'birthday', sortable: true },
-        { text: 'Стать (ч/ж)', align: 'center', value: 'sex', sortable: true },
-        { text: "Ім'я матері", align: 'center', value: 'motherName', sortable: true },
-        { text: 'Прізвище матері', align: 'center', value: 'motherLastname', sortable: true },
-        { text: "Ім'я батька", align: 'center', value: 'fatherName', sortable: true },
-        { text: 'Примітки', align: 'center', value: 'note' },
-        { text: 'Номер фото', align: 'center', value: 'photo' },
-        { text: 'Місцевість', align: 'center', value: 'birthPlace', sortable: true },
-        { text: 'Запис', align: 'center', value: 'recordedBy', sortable: true }
-      ]
+      return headers[pageMap[this.page]]
+    }
+  },
+  watch: {
+    page: {
+      handler(val) {
+        this.state.settings = Object.assign({}, settings[pageMap[val]])
+        this.state.filters = Object.assign({}, filters[pageMap[val]])
+      },
+      immediate: true
     }
   },
   mounted() {
@@ -255,8 +228,8 @@ export default {
   },
   methods: {
     clean() {
-      this.state.filters = Object.assign({}, initFilters)
-      this.state.settings = Object.assign({}, initSettings)
+      this.state.filters = Object.assign({}, filters[pageMap[this.page]])
+      this.state.settings = Object.assign({}, settings[pageMap[this.page]])
     }
   }
 }
