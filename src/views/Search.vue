@@ -50,24 +50,32 @@
     <v-flex xs12>
       <v-layout class="" row wrap align-center>
         <v-flex xs12 class="d-flex pa-1 justify-space-between">
-          <div class="d-flex align-center">
-            <v-btn class="mx-1" @click="page = 1">Народження</v-btn>
-            <v-btn class="mx-1" @click="page = 2">Одруження</v-btn>
-            <v-btn class="mx-1" @click="page = 3">Смерть</v-btn>
-          </div>
+          <v-row no-gutters>
+            <v-col cols="12" xs="12" md="6" class="table__buttons">
+              <div class="d-flex justify-md-start">
+                <v-btn class="mx-1" @click="page = 1">Народження</v-btn>
+                <v-btn class="mx-1" @click="page = 2">Одруження</v-btn>
+                <v-btn class="mx-1" @click="page = 3">Смерть</v-btn>
+              </div>
+            </v-col>
+            <v-col cols="12" xs="12" md="6" class="pagination">
+              <v-pagination
+                v-model="state.settings.paginationPage"
+                class="d-flex"
+                :length="pageCount"
+                :total-visible="7"
+              ></v-pagination>
+            </v-col>
+          </v-row>
+
           <!-- <div xs12 class="d-flex justify-space-between align-center pb-4"> -->
-          <v-pagination
-            v-model="state.settings.paginationPage"
-            class="d-flex"
-            :length="pageCount"
-            :total-visible="7"
-          ></v-pagination>
+
           <!-- </div> -->
         </v-flex>
         <v-flex class="d-flex pa-1 mt-4" xs12>
           <div class="filters__container">
             <div
-              v-if="$vuetify.breakpoint.smAndUp"
+              v-if="$vuetify.breakpoint.mdAndUp"
               class="pr-2"
               :style="{ maxHeight: siteSpaceHeight + 'px' }"
               sm2
@@ -124,7 +132,7 @@
             </div>
           </div>
 
-          <div ref="content" xs12 sm10 class="table__container">
+          <div ref="content" class="table__container">
             <v-data-table
               height="700px"
               fixed-header
@@ -135,6 +143,7 @@
               loading-text="Завантаження, будь ласка, зачекайте"
               :headers="filteredHeaders"
               :items="filteredItems"
+              mobile-breakpoint="959"
               class="elevation-1"
               hide-default-footer
               @pagination="paginationEvent = $event"
@@ -248,7 +257,14 @@ export default {
 </script>
 
 <style>
-@media only screen and (max-width: 599px) {
+@media only screen and (max-width: 959px) {
+  .pagination,
+  .table__buttons {
+    padding: 5px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .filters__container {
     width: 0%;
   }
@@ -256,7 +272,18 @@ export default {
     width: 100% !important;
   }
 }
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 960px) {
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .table__buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
   .filters__container {
     width: 16% !important;
   }

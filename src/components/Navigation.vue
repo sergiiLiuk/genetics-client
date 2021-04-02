@@ -5,7 +5,7 @@
     <v-app-bar app dark>
       <v-container>
         <v-toolbar class="elevation-0">
-          <span class="hidden-sm-and-up">
+          <span class="hidden-md-and-up">
             <v-btn icon @click="$refs.mobnavigation.toggleDrawer()">
               <v-icon>menu</v-icon>
             </v-btn>
@@ -16,14 +16,14 @@
             </router-link>
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-items class="hidden-xs-only">
+          <v-toolbar-items class="hidden-sm-and-down">
             <v-btn v-for="item in menuItems" :key="item.title" text :to="item.path">
               <v-icon left dark>{{ item.icon }}</v-icon>
               {{ item.title }}
             </v-btn>
           </v-toolbar-items>
 
-          <span class="hidden-sm-and-up">
+          <span class="hidden-md-and-up">
             <v-btn icon @click="modal = !modal">
               <v-icon>settings</v-icon>
             </v-btn>
