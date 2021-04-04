@@ -39,7 +39,7 @@ export default {
       return ['костел Уланів']
     },
     locations() {
-      return [...new Set(this.$store.state.death.death.map((item) => item.locality))]
+      return [...new Set(this.$store.state.birth.birth.map((item) => item.locality))]
     }
   },
   watch: {

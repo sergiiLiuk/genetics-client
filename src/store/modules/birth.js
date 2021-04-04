@@ -2,11 +2,11 @@ import graphql from '@/service/api/graphql'
 
 export default {
   state: {
-    births: []
+    birth: []
   },
   mutations: {
     saveBirthdays(state, params) {
-      state.births = params
+      state.birth = params
     }
   },
   actions: {
@@ -21,14 +21,15 @@ export default {
               lastName
               actNumber
               sex
-              birthPlace
+              year
+              locality
               birthday
               photo
               note
               fatherName
               motherName
               motherLastname
-              recordedBy
+              parish
             }
           }
         `

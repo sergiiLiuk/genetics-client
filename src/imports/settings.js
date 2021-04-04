@@ -1,12 +1,34 @@
 export default {
-  births: {
-    columns: ['firstName', 'lastName', 'birthday', 'sex', 'birthPlace', 'note'],
+  birth: {
+    columns: ['firstName', 'lastName', 'birthday', 'sex', 'locality', 'note'],
     sortBy: '',
     descending: true,
     paginationPage: 1,
     selectedPagination: 20,
     results: 10
   },
-  marriage: {},
-  death: {}
+  marriage: {
+    columns: [
+      'husbandFirstName',
+      'husbandLastName',
+      'wifeFirstName',
+      'wifeLastName',
+      'locality',
+      'note',
+      'marriageDate'
+    ],
+    sortBy: '',
+    descending: true,
+    paginationPage: 1,
+    selectedPagination: 20,
+    results: 10
+  },
+  death: {
+    columns: ['firstName', 'lastName', 'birthday', 'sex', 'locality', 'note'],
+    sortBy: '',
+    descending: true,
+    paginationPage: 1,
+    selectedPagination: 20,
+    results: 10
+  }
 }

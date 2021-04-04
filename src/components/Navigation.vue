@@ -23,7 +23,7 @@
             </v-btn>
           </v-toolbar-items>
 
-          <span class="hidden-md-and-up">
+          <span v-if="$route.name === 'Search'" class="hidden-md-and-up">
             <v-btn icon @click="modal = !modal">
               <v-icon>settings</v-icon>
             </v-btn>

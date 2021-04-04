@@ -1,8 +1,17 @@
 export default {
-  births: {
+  birth: {
     search: '',
-    birthPlace: ''
+    locality: '',
+    parish: ''
   },
-  marriage: {},
-  death: {}
+  marriage: {
+    search: '',
+    locality: '',
+    parish: ''
+  },
+  death: {
+    search: '',
+    locality: '',
+    parish: ''
+  }
 }

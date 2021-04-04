@@ -5,7 +5,7 @@ export function mingoFilter(data, state) {
   let res = search({
     list: data,
     search: state.filters.search,
-    fields: ['locality', 'firstName', 'lastName', 'year', 'birthday']
+    fields: ['locality', 'firstName', 'lastName', 'year']
   })
 
   let query = {}
@@ -17,7 +17,6 @@ export function mingoFilter(data, state) {
   }
 
   if (state.filters.parish !== '') {
-    console.log(state.filters.parish)
     query['parish'] = {
       $eq: state.filters.parish
     }

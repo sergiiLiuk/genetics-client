@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import VuexPersist from 'vuex-persist'
 
 import app from '@/store/modules/app'
-import births from '@/store/modules/births'
+import birth from '@/store/modules/birth'
 import marriage from '@/store/modules/marriage'
 import death from '@/store/modules/death'
 
@@ -13,7 +13,7 @@ const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
   storage: window.sessionStorage
   // reducer: (state) => ({
-  //   births: state.births.births
+  //   birth: state.birth.birth
   // })
 })
 
@@ -24,7 +24,7 @@ export default new Vuex.Store({
   state: initialState(),
   modules: {
     app,
-    births,
+    birth,
     marriage,
     death
   }

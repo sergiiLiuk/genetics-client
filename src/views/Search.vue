@@ -47,15 +47,26 @@
       </v-list>
       <v-divider></v-divider>
     </Modal>
+
     <v-flex xs12>
       <v-layout class="" row wrap align-center>
         <v-flex xs12 class="d-flex pa-1 justify-space-between">
           <v-row no-gutters>
             <v-col cols="12" xs="12" md="6" class="table__buttons">
-              <div class="d-flex justify-md-start">
-                <v-btn class="mx-1" @click="page = 1">Народження</v-btn>
-                <v-btn class="mx-1" @click="page = 2">Одруження</v-btn>
-                <v-btn class="mx-1" @click="page = 3">Смерть</v-btn>
+              <v-select
+                v-if="$vuetify.breakpoint.smAndDown"
+                v-model="page"
+                class="mt-4"
+                :items="pages"
+                label="Архів"
+                item-text="name"
+                dense
+                outlined
+              ></v-select>
+              <div v-if="$vuetify.breakpoint.mdAndUp" class="d-flex justify-md-start">
+                <v-btn class="mx-1" @click="page = 'birth'">Народження</v-btn>
+                <v-btn class="mx-1" @click="page = 'marriage'">Одруження</v-btn>
+                <v-btn class="mx-1" @click="page = 'death'">Смерть</v-btn>
               </div>
             </v-col>
             <v-col cols="12" xs="12" md="6" class="pagination">
@@ -63,14 +74,17 @@
                 v-model="state.settings.paginationPage"
                 class="d-flex"
                 :length="pageCount"
-                :total-visible="7"
+                :total-visible="5"
               ></v-pagination>
             </v-col>
           </v-row>
-
-          <!-- <div xs12 class="d-flex justify-space-between align-center pb-4"> -->
-
-          <!-- </div> -->
+        </v-flex>
+        <v-flex class="d-flex justify-start">
+          <div class="px-2">
+            архів
+            <span class="headline"> {{ pageTitle }}</span>
+            <v-divider></v-divider>
+          </div>
         </v-flex>
         <v-flex class="d-flex pa-1 mt-4" xs12>
           <div class="filters__container">
@@ -124,6 +138,7 @@
                   class="mt-4"
                   :items="Object.keys(paginationMap)"
                   label="Записів на сторінку "
+                  outlined
                   dense
                 ></v-select>
                 <v-divider class="my-4"></v-divider>
@@ -161,12 +176,6 @@
 </template>
 
 <script>
-const pageMap = {
-  1: 'births',
-  2: 'marriage',
-  3: 'death'
-}
-
 import { mingoFilter } from '../service/mingo/birth'
 import common from '../mixins/common'
 import headers from '../imports/headers'
@@ -178,7 +187,12 @@ export default {
   mixins: [common],
   data() {
     return {
-      page: 1,
+      page: 'birth',
+      pages: [
+        { value: 'birth', name: 'Народження' },
+        { value: 'marriage', name: 'Одруження' },
+        { value: 'death', name: 'Смерть' }
+      ],
       state: {
         settings: {},
         filters: {}
@@ -197,12 +211,15 @@ export default {
     }
   },
   computed: {
+    pageTitle() {
+      return this.pages.find((page) => page.value === this.page).name
+    },
     dataState() {
-      return this.$store.state[pageMap[this.page]][pageMap[this.page]]
+      return this.$store.state[this.page][this.page]
     },
     filterComponent() {
       return require('../components/filters/' +
-        this.capitalizeFirstLetter(pageMap[this.page]) +
+        this.capitalizeFirstLetter(this.page) +
         'Filters.vue').default
     },
     filteredHeaders() {
@@ -230,14 +247,14 @@ export default {
       return window.innerHeight
     },
     headers() {
-      return headers[pageMap[this.page]]
+      return headers[this.page]
     }
   },
   watch: {
     page: {
       handler(val) {
-        this.state.settings = Object.assign({}, settings[pageMap[val]])
-        this.state.filters = Object.assign({}, filters[pageMap[val]])
+        this.state.settings = Object.assign({}, settings[val])
+        this.state.filters = Object.assign({}, filters[val])
       },
       immediate: true
     }
@@ -245,12 +262,14 @@ export default {
   mounted() {
     this.loading = true
     this.$store.dispatch('GET_BIRTHS')
+    this.$store.dispatch('GET_DEATH')
+    this.$store.dispatch('GET_MARRIAGE')
     this.loading = false
   },
   methods: {
     clean() {
-      this.state.filters = Object.assign({}, filters[pageMap[this.page]])
-      this.state.settings = Object.assign({}, settings[pageMap[this.page]])
+      this.state.filters = Object.assign({}, filters[this.page])
+      this.state.settings = Object.assign({}, settings[this.page])
     }
   }
 }
