@@ -17,7 +17,6 @@ export function mingoFilter(data, state) {
   }
 
   if (state.filters.parish !== '') {
-    console.log(state.filters.parish)
     query['parish'] = {
       $eq: state.filters.parish
     }

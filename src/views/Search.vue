@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal :title="'Фільтр'">
+    <Modal ref="settingsmodal" :title="'Фільтр'">
       <v-list three-line subheader>
         <!-- <v-subheader>User Controls</v-subheader> -->
         <v-list-item>
@@ -41,7 +41,10 @@
               dense
             ></v-select>
             <v-divider class="my-2"></v-divider>
-            <v-btn @click="clean()">Очистити фільтр</v-btn>
+            <div class="d-flex justify-space-between">
+              <v-btn @click="clean()">Очистити фільтр</v-btn>
+              <v-btn @click="$refs.settingsmodal.toggleModal()">Закрити</v-btn>
+            </div>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -79,7 +82,7 @@
             </v-col>
           </v-row>
         </v-flex>
-        <v-flex class="d-flex justify-start">
+        <v-flex v-if="$vuetify.breakpoint.mdAndUp" class="d-flex justify-start">
           <div class="px-2">
             архів
             <span class="headline"> {{ pageTitle }}</span>
@@ -142,7 +145,7 @@
                   dense
                 ></v-select>
                 <v-divider class="my-4"></v-divider>
-                <v-btn @click="clean()">Очистити</v-btn>
+                <v-btn @click="clean()">Очистити фільтр</v-btn>
               </div>
             </div>
           </div>

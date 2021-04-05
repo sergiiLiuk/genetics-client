@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     allParish() {
-      return ['костел Уланів']
+      return ['костел Уланів', 'церква с. Сальниця']
     },
     locations() {
       return [...new Set(this.$store.state.death.death.map((item) => item.locality))]

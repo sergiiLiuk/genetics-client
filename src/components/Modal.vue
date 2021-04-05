@@ -25,6 +25,14 @@ export default {
     title: {
       type: String
     }
+  },
+  created() {
+    this.$store.state.app.modal = false
+  },
+  methods: {
+    toggleModal() {
+      this.$store.state.app.modal = !this.$store.state.app.modal
+    }
   }
 }
 </script>
