@@ -56,16 +56,23 @@
         <v-flex xs12 class="d-flex pa-1 justify-space-between">
           <v-row no-gutters>
             <v-col cols="12" xs="12" md="6" class="table__buttons">
-              <v-select
-                v-if="$vuetify.breakpoint.smAndDown"
-                v-model="page"
-                class="mt-4"
-                :items="pages"
-                label="Архів"
-                item-text="name"
-                dense
-                outlined
-              ></v-select>
+              <div v-if="$vuetify.breakpoint.smAndDown" class="d-flex">
+                <div style="width: 50%">
+                  <v-select
+                    v-model="page"
+                    class="mt-4"
+                    :items="pages"
+                    label="Архів"
+                    item-text="name"
+                    dense
+                    outlined
+                  ></v-select>
+                </div>
+                <div style="width: 50%" class="d-flex justify-center align-center px-1">
+                  Усього записів: {{ dataState.length }}, Фільтр: {{ filteredItems.length }}
+                </div>
+              </div>
+
               <div v-if="$vuetify.breakpoint.mdAndUp" class="d-flex justify-md-start">
                 <v-btn class="mx-1" @click="page = 'birth'">Народження</v-btn>
                 <v-btn class="mx-1" @click="page = 'marriage'">Одруження</v-btn>
@@ -85,7 +92,8 @@
         <v-flex v-if="$vuetify.breakpoint.mdAndUp" class="d-flex justify-start">
           <div class="px-2">
             архів
-            <span class="headline"> {{ pageTitle }}</span>
+            <span class="headline mr-4"> {{ pageTitle }}</span>
+            <span>Усього записів: {{ dataState.length }}, Фільтр: {{ filteredItems.length }}</span>
             <v-divider></v-divider>
           </div>
         </v-flex>
